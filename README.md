@@ -1,3 +1,6 @@
 # StormHook
-StormHook 能够支持Android Dalvik 和 Art的 Hook框架
-支持注入到其他进程进行Hook，不需要安装类似Xposed的安装器
+StormHook是一个Android 侵入式Hook框架
+支持Android Art和Dalvik层
+支持Andorid 4.0-6.0
+支持注入到其他进程Hook
+
