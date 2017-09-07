@@ -27,7 +27,15 @@ android::AndroidRuntime::getJavaVM();
 
 ## 4.加载外部Dex
 使用反射的方法调用"dalvik/system/DexFile"类中的loadDex来动态加载Dex，获取一个dex对象
-
+```java
+jclass DexFile=jenv->FindClass("dalvik/system/DexFile");
+if(ClearException(jenv))
+{
+	ALOG("storm","find DexFile class failed");
+	return 0;
+}
+jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;Ljava/lang/String;I)Ldalvik/system/DexFile;");
+```
 
 ## 5.获取主dex所对应的PathClassLoader
 
