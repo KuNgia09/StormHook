@@ -5,7 +5,7 @@
 * 支持Andorid 4.0-6.0
 * 支持注入到其他进程Hook
 
-# 用法：
+# 模块：
 * StormHookSample：用来测试Hook效果的例子
 * InjectSo：用来注入到StormHookSample进程的so文件
 * HookCore:  加载到StormHookSample进程的dex
@@ -20,32 +20,11 @@
 
 ## 如何获取全局的JavaVm
 在JNI开发当中，JavaVM参数可以通过JNI_OnLoad参数获取，但是对于我们注入的so ，我们无法通过这种方式获取JavaVm，但是Android提供了另外一种方法可以获取到全局的JavaVm
-g_JavaVM = android::AndroidRuntime::getJavaVM();
+
 
 ## 加载外部Dex
 使用反射的方法调用"dalvik/system/DexFile"类中的loadDex来动态加载Dex，获取一个dex对象
-	jclass DexFile=jenv->FindClass("dalvik/system/DexFile");
-	if(ClearException(jenv))
-	{
-		ALOG("storm","find DexFile class failed");
-		return 0;
-	}
-	jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;Ljava/lang/String;I)Ldalvik/system/DexFile;");
-	if(ClearException(jenv))
-	{
-		ALOG("storm","find loadDex methodId failed");
-		return 0;
-	}
-	//jstring inPath=jenv->NewStringUTF("/data/data/com.example.stromhooktest/legend.dex");
-	jstring inPath=jenv->NewStringUTF(dexPath);
 
-	char optPath[256]={0};
-	strcat(optPath,"/data/data/");
-	strcat(optPath,pKgName);
-	strcat(optPath,"/hook.dat");
-	ALOG("storm","LoadDex optFile path:%s",optPath);
-	jstring outPath=jenv->NewStringUTF(optPath);
-	jobject dexObject=jenv->CallStaticObjectMethod(DexFile,loadDex,inPath,outPath,0);
 
 ## 获取当前dex所对应的PathClassLoader，表示为g_classLoader
 
@@ -71,9 +50,9 @@ g_JavaVM = android::AndroidRuntime::getJavaVM();
 使用mar-v-hook的Art Hook方案
 
 # 感谢
-https://github.com/alibaba/AndFix
-https://github.com/mar-v-in/ArtHook
-https://yq.aliyun.com/articles/74598
+* https://github.com/alibaba/AndFix
+* https://github.com/mar-v-in/ArtHook
+* https://yq.aliyun.com/articles/74598
 
 
 
