@@ -78,8 +78,8 @@ jclass tClazz = (jclass)jenv->CallObjectMethod(dexObject,loadClass,className,g_c
 采用的是mar-v-hook的Art Hook方案
 
 # 参考
-* [AndFix](https://github.com/alibaba/AndFix)
-* [mar-v-in Art Hook](https://github.com/mar-v-in/ArtHook)
+* https://github.com/alibaba/AndFix
+* https://github.com/mar-v-in/ArtHook
 * [Android热修复升级探索——追寻极致的代码热替换](https://yq.aliyun.com/articles/74598)
 * [Android 7.0 行为变更](https://developer.android.com/about/versions/nougat/android-7.0-changes.html?hl=zh-cn#ndk)
 
