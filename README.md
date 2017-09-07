@@ -8,7 +8,7 @@
 # 模块
 * StormHookSample：用来测试Hook效果的例子
 * InjectSo：用来注入到StormHookSample进程的so文件
-* HookCore:  加载到StormHookSample进程的dex
+* HookCore: 加载到StormHookSample进程的dex
 
 # 原理
 
