@@ -4,7 +4,7 @@
 * 支持Andorid 4.0-6.0
 * 支持注入到其他进程Hook
 * 支持public，static，private方法
-* 支持调用原始的方法
+* 支持调用原始的Java方法
 
 # 模块
 * StormHookSample：用来测试Hook效果的例子
@@ -77,10 +77,11 @@ jclass tClazz = (jclass)jenv->CallObjectMethod(dexObject,loadClass,className,g_c
 ### Art Hook
 采用的是mar-v-hook的Art Hook方案
 
-# 感谢
-* https://github.com/alibaba/AndFix
-* https://github.com/mar-v-in/ArtHook
-* https://yq.aliyun.com/articles/74598
+# 参考
+* [AndFix](https://github.com/alibaba/AndFix)
+* [mar-v-in Art Hook](https://github.com/mar-v-in/ArtHook)
+* [Android热修复升级探索——追寻极致的代码热替换](https://yq.aliyun.com/articles/74598)
+* [Android 7.0 行为变更](https://developer.android.com/about/versions/nougat/android-7.0-changes.html?hl=zh-cn#ndk)
 
 
 
