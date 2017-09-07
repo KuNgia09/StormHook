@@ -40,7 +40,7 @@ jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;
 
 ## 5.获取主dex所对应的PathClassLoader
 
-## 6.使用MultiDex将主Dex和外部加载的Dex合并
+## 6.根据MultiDex原理将主Dex和外部加载的Dex合并
 
 ## 7.找到外部Dex的入口类
 这里我提供了2种方法：
@@ -72,7 +72,7 @@ jclass tClazz = (jclass)jenv->CallObjectMethod(dexObject,loadClass,className,g_c
 
 ## 8.执行外部Dex入口类进行Java Hook操作
 ### Dalvik Hook
-在Dalvik的Hook当中，我使用的方法类似AndFix，将origin method对应的DalvikMethod结构替换为replace method的DalvikMethod结构
+采用的方法类似AndFix，将origin method对应的DalvikMethod结构替换为replace method的DalvikMethod结构
 
 ### Art Hook
 采用的是mar-v-hook的Art Hook方案
