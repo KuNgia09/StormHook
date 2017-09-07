@@ -53,7 +53,7 @@ jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;
 	jclass clazzCL = jenv->GetObjectClass(g_classLoader);
 	jmethodID loadClass = jenv->GetMethodID(clazzCL,"loadClass","(Ljava/lang/String;)Ljava/lang/Class;");
 	jclass tClazz = (jclass)jenv->CallObjectMethod(g_classLoader,loadClass,className);
-```C
+```
 
 方法二：dexFile.loadClass(className);
 通过LoadDex加载外部Dex之后，会得到一个dex对象dexObj，也可以使用dexObj.loadClass来找到外部dex目标类
