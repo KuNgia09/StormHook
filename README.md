@@ -20,13 +20,16 @@
 
 ## 3.如何获取全局的JavaVm
 在JNI开发当中，JavaVM参数可以通过JNI_OnLoad参数获取，但是对于我们注入的so ，我们无法通过这种方式获取JavaVm，但是Android提供了另外一种方法可以获取到全局的JavaVm
+```java
+android::AndroidRuntime::getJavaVM();
+```
 
 
 ## 4.加载外部Dex
 使用反射的方法调用"dalvik/system/DexFile"类中的loadDex来动态加载Dex，获取一个dex对象
 
 
-## 5.获取当前dex所对应的PathClassLoader，表示为g_classLoader
+## 5.获取主dex所对应的PathClassLoader
 
 ## 6.使用MultiDex将主Dex和外部加载的Dex合并
 
