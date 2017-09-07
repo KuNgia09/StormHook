@@ -1,16 +1,17 @@
 # StormHook
 ## StormHook是一款Android侵入式Java Hook框架
-
 * 支持Android Art和Dalvik
 * 支持Andorid 4.0-6.0
 * 支持注入到其他进程Hook
+* 支持public，static，private方法
+* 支持调用原始的方法
 
-# 模块：
+# 模块
 * StormHookSample：用来测试Hook效果的例子
 * InjectSo：用来注入到StormHookSample进程的so文件
 * HookCore:  加载到StormHookSample进程的dex
 
-# 原理：
+# 原理
 
 ## 1.如何进入目标进程的native世界
 通过注入InjectSo模块中的libhook.so到目标进程，就进入了目标的native世界
@@ -27,7 +28,7 @@ android::AndroidRuntime::getJavaVM();
 
 ## 4.加载外部Dex
 使用反射的方法调用"dalvik/system/DexFile"类中的loadDex来动态加载Dex，获取一个dex对象
-```java
+```C
 jclass DexFile=jenv->FindClass("dalvik/system/DexFile");
 if(ClearException(jenv))
 {
@@ -40,7 +41,6 @@ jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;
 ## 5.获取主dex所对应的PathClassLoader
 
 ## 6.使用MultiDex将主Dex和外部加载的Dex合并
-
 
 ## 7.找到外部Dex的入口类
 这里我提供了2种方法：
