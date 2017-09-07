@@ -16,7 +16,7 @@
 通过注入InjectSo模块中的libhook.so到目标进程，就进入了目标的native世界
 
 ## 2.如何进入目标进程的java世界
-使用LoadDex函数加载外部Dex，并执行指令的入口类，对Java函数进行hook操作
+使用LoadDex函数加载外部Dex，并执行指定的入口类，对Java函数进行hook操作，这样就进入到目标进程的Java世界
 
 ## 3.如何获取全局的JavaVm
 在JNI开发当中，JavaVM参数可以通过JNI_OnLoad参数获取，但是对于我们注入的so ，我们无法通过这种方式获取JavaVm，但是Android提供了另外一种方法可以获取到全局的JavaVm
