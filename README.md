@@ -16,13 +16,12 @@ Step1：
 ```C
 adb push libhook.so /data/local/tmp/
 ```
-Step2：
-HookCore模块是Android Studio工程，将生成的Apk中的**classes.dex**提取出来重命名为**hook.dex**
+Step2：HookCore模块是Android Studio工程，将生成的Apk中的**classes.dex**提取出来重命名为**hook.dex**
 ```C
 adb push hook.dex /data/local/tmp/
 ```
 
-Step3:
+Step3: 
 HookCore/Native是jni工程 编译生成**libdalvikhook_native.so**和**libarthook_native.so**
 ```C
 adb push libdalvikhook_native.so /data/local/tmp/
