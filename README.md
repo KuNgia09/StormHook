@@ -112,7 +112,8 @@ D/storm   (19001): test_privatestatic is called
 # 原理
 
 早期的Dalvik hook是修改Java方法的签名属性为native，replacemethod是native方法，需要通过java反射来调用原始函数，这种方式来hook代码非常不方便。
-在StormHook框架，我是将replace method全部用Java代码实现。
+
+StormHook框架中，Hook代码全部用Java代码实现，避免了反射调用，要实现这种方案，需要将Hook代码编译为Dex或者Jar来加载到目标进程
 
 首先注入so来进入目标进程的native世界,然后使用LoadDex来加载Dex
 ```C
@@ -124,8 +125,7 @@ if(ClearException(jenv))
 }
 jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;Ljava/lang/String;I)Ldalvik/system/DexFile;");
 ```
-然后根据MultiDex原理将动态加载的dex与原始Dex合并，执行外部加载Dex的入口类，这样我们就进入进程的Java世界
-来进行Java Hook操作。
+为了PathClassLoader能够执行动态加载的Dex中的代码，我使用MultiDex原理将动态加载的dex与原始Dex合并，执行动态加载Dex的入口类，这样我们就进入进程的Java世界来进行Java Hook操作。
 
 如何找到动态加载的Dex中的java类，有2种方法：
 
