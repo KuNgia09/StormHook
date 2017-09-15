@@ -14,8 +14,8 @@ import de.larma.arthook.ArtHook;
 public class main {
 
 
-    private static String dalvik_oldPath="/data/local/tmp/libdalvikhook_native.so";
-    private static String art_oldPath="/data/local/tmp/libarthook_native.so";
+    //private static String dalvik_oldPath="/data/local/tmp/libdalvikhook_native.so";
+    //private static String art_oldPath="/data/local/tmp/libarthook_native.so";
 
 
 
@@ -26,22 +26,23 @@ public class main {
         //Add PathClassLoader so path or use System.load() instead of System.loadLibrary
         OperateDexClassLoader.AddNativeLibraryDirectory(PathClassLoader);
         if(Runtime.isArt()){
-            Runtime.isArt=true;
+
             ArtHook.flag=Inject_flag;
 
             if(ArtHook.flag){
-                Log.d(TAG,"will hook Inject_Static.class method");
+
                 ArtHook.hook(Inject_Static.class);
             }
             else{
-                Log.d(TAG,"will hook Inject_SaveOrigProto.class method");
+
                 ArtHook.hook(Inject_SaveOrigProto.class);
             }
         }
         else{
+            Runtime.isArt=false;
             DalvikHookManager.hook(Inject_SaveOrigProto.class);
         }
-        Log.d(TAG,"Inject dex hook success");
+
     }
 
 }

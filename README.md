@@ -10,6 +10,114 @@
 * InjectSo：用来注入到StormHookSample进程的so文件
 * HookCore: 加载到StormHookSample进程的dex
 
+# 用法
+Step1：
+将InjectSo模块编译的so libhook.so放入到 /data/local/tmp/目录
+
+Step2：
+HookCore是Android Studio工程，将生成的Apk中的classes.dex提取出来 
+重命名为hook.dex,放入到 /data/local/tmp/目录
+
+
+Step3:
+将HookCore/Native是jni工程
+将编译生成的so libdalvikhook_native.so和libarthook_native.so放入到/data/local/tmp/目录
+
+Step4:
+关闭selinux
+
+Step5:
+注入Step1中的so到StormHookSample App中
+
+
+```C
+root@hammerhead:/data/local/tmp # ll
+-rwxrwxrwx shell    shell       82926 2017-08-09 01:49 SpriteAssitant.jar
+-rwxrwxrwx root     root       423528 2017-08-09 01:49 aapt_android
+-rwxrwxr-x shell    shell      523480 2015-04-13 10:35 android_server
+-rwxr-xr-x shell    shell     1062992 2017-08-09 01:49 busybox
+-rwxr-xr-x shell    shell      358336 2017-08-09 01:49 busybox1
+-rwxrwxrwx shell    shell      358336 2017-08-09 01:49 busybox2
+-rwxrwxr-x shell    shell          87 2017-05-28 05:14 debug.sh
+-rwxr-xr-x shell    shell       42384 2017-08-09 01:49 gzip
+-rw-rw-rw- shell    shell       79872 2017-09-15 08:26 hook.dex
+-rwxrwxr-x shell    shell       13652 2017-08-18 19:39 inject
+-rw-rw-rw- shell    shell       17532 2017-09-15 08:01 libarthook_native.so
+-rw-rw-rw- shell    shell       66828 2017-09-15 08:01 libdalvikhook_native.so
+-rw-rw-rw- shell    shell       25796 2017-09-15 08:00 libhook.so
+-rwxrwxr-x shell    shell       17712 2015-07-06 07:30 mprop
+drwxrwxrwx root     root              1970-03-06 19:05 zgo
+root@hammerhead:/data/local/tmp # getenforce
+Permissive
+
+
+```C
+root@hammerhead:/data/local/tmp # ps |grep storm
+u0_a71    17772 182   923264 41632 ffffffff 400ca73c S com.example.stormhookdemo
+
+root@hammerhead:/data/local/tmp # ./inject /data/local/tmp/libhook.so 17772
+target_pid:456c,soPath:/data/local/tmp/libhook.so
+library path = /data/local/tmp/libhook.so
+```
+
+```C
+adb logcat -s "storm"
+V/storm   (17772): g_JavaVM:414cef00
+V/storm   (17772): LoadDex optFile path:/data/data/com.example.stormhookdemo/hoo
+k.dat
+V/storm   (17772): classLoaders size:1
+V/storm   (17772): original Element size:1
+V/storm   (17772): ClassMethodHook[Can't find class:com/storm/hook/main in bootc
+lassloader
+V/storm   (17772): loadClass com/storm/hook/main successful clazz:0x1d600059
+D/storm   (17772): Inject dex entry is called
+D/storm   (17772): After addNativeLibraryDirectory pathLoader is:dalvik.system.P
+athClassLoader[DexPathList[[zip file "/data/app/com.example.stormhookdemo-1.apk"
+, dex file "dalvik.system.DexFile@425e31c0"],nativeLibraryDirectories=[/data/loc
+al/tmp, /data/app-lib/com.example.stormhookdemo-1, /vendor/lib, /system/lib]]]
+D/storm   (17772): [+]find original method (getMacAddress_hook)
+D/storm   (17772): [+]find original method (test_public_hook)
+D/storm   (17772): [+]find original method (currentTimeMillis)
+D/storm   (17772): [+]find original method (test_private)
+D/storm   (17772): [+]find original method (test_privatestatic)
+D/storm   (17772): Inject dex hook success
+I/storm   (17772): *-*-*-*-*-*-*- End -*-*-*-*-*-*-*-*-*-*
+
+```
+
+```C
+adb logcat -s "storm","hook"
+D/hook    (19001): getMacAddress is hooked :)
+D/storm   (19001): Wifi mac :c4:43:8f:f7:d1:03
+D/hook    (19001): test_public is hooked
+D/storm   (19001): test_public is called
+D/hook    (19001): test_private is hooked
+D/storm   (19001): test_private is called
+D/storm   (19001): test_private return:10
+D/hook    (19001): currentTimeMillis is much better in seconds :)
+D/storm   (19001): small Currentime:5885303
+D/hook    (19001): test_private is hooked
+D/storm   (19001): test_private is called
+D/storm   (19001): test_private return:10
+D/hook    (19001): test_privatestatic is hooked
+D/storm   (19001): test_privatestatic is called
+
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 # 原理
 
 ## 1.如何进入目标进程的native世界

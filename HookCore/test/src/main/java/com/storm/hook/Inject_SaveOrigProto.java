@@ -22,7 +22,7 @@ public  class Inject_SaveOrigProto {
      */
     @Hook("java.lang.System->currentTimeMillis")
     public static long currentTimeMillis() {
-        Log.d("gg", "currentTimeMillis is much better in seconds :)");
+        Log.d(TAG, "currentTimeMillis is much better in seconds :)");
         if(Runtime.isArt)
             return (long) OriginalMethod.by(new $() {}).invokeStatic() / 1000L;
         else
