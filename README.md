@@ -125,7 +125,7 @@ if(ClearException(jenv))
 }
 jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;Ljava/lang/String;I)Ldalvik/system/DexFile;");
 ```
-为了PathClassLoader能够执行动态加载的Dex中的代码，我使用MultiDex原理将动态加载的dex与原始Dex合并，执行动态加载Dex的入口类，这样我们就进入进程的Java世界来进行Java Hook操作。
+为了PathClassLoader能够执行动态加载的Dex中的代码，根据MultiDex原理将动态加载的dex与原始Dex合并，然后执行动态加载Dex的入口类，这样我们就进入进程的Java世界来进行Java Hook操作。
 
 如何找到动态加载的Dex中的java类，有2种方法：
 
