@@ -17,7 +17,17 @@ Step1：
 Step2：
 HookCore是Android Studio工程，将生成的Apk中的classes.dex提取出来 
 重命名为hook.dex,放入到 /data/local/tmp/目录
-
+```C
+root@hammerhead:/data/local/tmp # ll
+-rwxrwxr-x shell    shell      523480 2015-04-13 10:35 android_server
+-rw-rw-rw- shell    shell       79872 2017-09-15 08:26 hook.dex
+-rwxrwxr-x shell    shell       13652 2017-08-18 19:39 inject
+-rw-rw-rw- shell    shell       17532 2017-09-15 08:01 libarthook_native.so
+-rw-rw-rw- shell    shell       66828 2017-09-15 08:01 libdalvikhook_native.so
+-rw-rw-rw- shell    shell       25796 2017-09-15 08:00 libhook.so
+root@hammerhead:/data/local/tmp # getenforce
+Permissive
+```
 
 Step3:
 将HookCore/Native是jni工程
@@ -28,29 +38,6 @@ Step4:
 
 Step5:
 注入Step1中的so到StormHookSample App中
-
-
-```C
-root@hammerhead:/data/local/tmp # ll
--rwxrwxrwx shell    shell       82926 2017-08-09 01:49 SpriteAssitant.jar
--rwxrwxrwx root     root       423528 2017-08-09 01:49 aapt_android
--rwxrwxr-x shell    shell      523480 2015-04-13 10:35 android_server
--rwxr-xr-x shell    shell     1062992 2017-08-09 01:49 busybox
--rwxr-xr-x shell    shell      358336 2017-08-09 01:49 busybox1
--rwxrwxrwx shell    shell      358336 2017-08-09 01:49 busybox2
--rwxrwxr-x shell    shell          87 2017-05-28 05:14 debug.sh
--rwxr-xr-x shell    shell       42384 2017-08-09 01:49 gzip
--rw-rw-rw- shell    shell       79872 2017-09-15 08:26 hook.dex
--rwxrwxr-x shell    shell       13652 2017-08-18 19:39 inject
--rw-rw-rw- shell    shell       17532 2017-09-15 08:01 libarthook_native.so
--rw-rw-rw- shell    shell       66828 2017-09-15 08:01 libdalvikhook_native.so
--rw-rw-rw- shell    shell       25796 2017-09-15 08:00 libhook.so
--rwxrwxr-x shell    shell       17712 2015-07-06 07:30 mprop
-drwxrwxrwx root     root              1970-03-06 19:05 zgo
-root@hammerhead:/data/local/tmp # getenforce
-Permissive
-
-
 ```C
 root@hammerhead:/data/local/tmp # ps |grep storm
 u0_a71    17772 182   923264 41632 ffffffff 400ca73c S com.example.stormhookdemo
@@ -60,6 +47,10 @@ target_pid:456c,soPath:/data/local/tmp/libhook.so
 library path = /data/local/tmp/libhook.so
 ```
 
+
+
+
+hook成功显示的log
 ```C
 adb logcat -s "storm"
 V/storm   (17772): g_JavaVM:414cef00
@@ -85,6 +76,7 @@ I/storm   (17772): *-*-*-*-*-*-*- End -*-*-*-*-*-*-*-*-*-*
 
 ```
 
+测试button显示的效果
 ```C
 adb logcat -s "storm","hook"
 D/hook    (19001): getMacAddress is hooked :)
@@ -101,7 +93,6 @@ D/storm   (19001): test_private is called
 D/storm   (19001): test_private return:10
 D/hook    (19001): test_privatestatic is hooked
 D/storm   (19001): test_privatestatic is called
-
 
 
 ```
