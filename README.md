@@ -111,8 +111,8 @@ D/storm   (19001): test_privatestatic is called
 
 # 原理
 
-早期的Dalvik hook是修改java的签名属性为native，replacemethod是native方法，需要通过java反射来调用原始函数，
-在StormHook框架，我想要将replace method全部用java代码实现,可以动态加载Dex或者Jar来加载Hook代码
+早期的Dalvik hook是修改Java方法的签名属性为native，replacemethod是native方法，需要通过java反射来调用原始函数，这种方式来hook代码非常不方便。
+在StormHook框架，我是将replace method全部用Java代码实现。
 
 首先注入so来进入目标进程的native世界,然后使用LoadDex来加载Dex
 ```C
