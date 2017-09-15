@@ -17,6 +17,11 @@ Step1：
 Step2：
 HookCore是Android Studio工程，将生成的Apk中的classes.dex提取出来 
 重命名为hook.dex,放入到 /data/local/tmp/目录
+
+
+Step3:
+将HookCore/Native是jni工程
+将编译生成的so libdalvikhook_native.so和libarthook_native.so放入到/data/local/tmp/目录
 ```C
 root@hammerhead:/data/local/tmp # ll
 -rwxrwxr-x shell    shell      523480 2015-04-13 10:35 android_server
@@ -25,16 +30,15 @@ root@hammerhead:/data/local/tmp # ll
 -rw-rw-rw- shell    shell       17532 2017-09-15 08:01 libarthook_native.so
 -rw-rw-rw- shell    shell       66828 2017-09-15 08:01 libdalvikhook_native.so
 -rw-rw-rw- shell    shell       25796 2017-09-15 08:00 libhook.so
-root@hammerhead:/data/local/tmp # getenforce
-Permissive
 ```
-
-Step3:
-将HookCore/Native是jni工程
-将编译生成的so libdalvikhook_native.so和libarthook_native.so放入到/data/local/tmp/目录
 
 Step4:
 关闭selinux
+```C
+root@hammerhead:/ # setenforce 0
+root@hammerhead:/ # getenforce
+Permissive
+```
 
 Step5:
 注入Step1中的so到StormHookSample App中
