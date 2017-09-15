@@ -12,23 +12,21 @@
 
 # 用法
 Step1：
-将InjectSo模块编译的**libhook.so** push到/data/local/tmp/目录
-
+编译InjectSo模块 生成libhook.so
+```C
+adb push libhook.so /data/local/tmp/
+```
 Step2：
-HookCore模块是Android Studio工程，将生成的Apk中的**classes.dex**提取出来 
-重命名为**hook.dex**,放入到 /data/local/tmp/目录
+HookCore模块是Android Studio工程，将生成的Apk中的**classes.dex**提取出来重命名为**hook.dex**
+```C
+adb push hook.dex /data/local/tmp/
+```
 
 Step3:
-将HookCore/Native是jni工程
-将编译生成的**libdalvikhook_native.so**和**libarthook_native.so**放入到/data/local/tmp/目录
+将HookCore/Native是jni工程 编译生成**libdalvikhook_native.so**和**libarthook_native.so**
 ```C
-root@hammerhead:/data/local/tmp # ll
--rwxrwxr-x shell    shell      523480 2015-04-13 10:35 android_server
--rw-rw-rw- shell    shell       79872 2017-09-15 08:26 hook.dex
--rwxrwxr-x shell    shell       13652 2017-08-18 19:39 inject
--rw-rw-rw- shell    shell       17532 2017-09-15 08:01 libarthook_native.so
--rw-rw-rw- shell    shell       66828 2017-09-15 08:01 libdalvikhook_native.so
--rw-rw-rw- shell    shell       25796 2017-09-15 08:00 libhook.so
+adb push libdalvikhook_native.so /data/local/tmp/
+adb push libarthook_native.so /data/local/tmp/
 ```
 
 Step4:
