@@ -12,7 +12,7 @@
 
 # 用法
 Step1：
-编译InjectSo模块 生成libhook.so
+编译InjectSo模块 生成**libhook.so**
 ```C
 adb push libhook.so /data/local/tmp/
 ```
@@ -23,7 +23,7 @@ adb push hook.dex /data/local/tmp/
 ```
 
 Step3:
-将HookCore/Native是jni工程 编译生成**libdalvikhook_native.so**和**libarthook_native.so**
+HookCore/Native是jni工程 编译生成**libdalvikhook_native.so**和**libarthook_native.so**
 ```C
 adb push libdalvikhook_native.so /data/local/tmp/
 adb push libarthook_native.so /data/local/tmp/
