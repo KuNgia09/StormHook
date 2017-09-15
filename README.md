@@ -18,7 +18,6 @@ Step2：
 HookCore模块是Android Studio工程，将生成的Apk中的**classes.dex**提取出来 
 重命名为**hook.dex**,放入到 /data/local/tmp/目录
 
-
 Step3:
 将HookCore/Native是jni工程
 将编译生成的**libdalvikhook_native.so**和**libarthook_native.so**放入到/data/local/tmp/目录
@@ -80,7 +79,7 @@ I/storm   (17772): *-*-*-*-*-*-*- End -*-*-*-*-*-*-*-*-*-*
 
 ```
 
-测试button显示的效果
+测试button事件的log输出
 ```C
 adb logcat -s "storm","hook"
 D/hook    (19001): getMacAddress is hooked :)
