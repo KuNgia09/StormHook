@@ -111,21 +111,10 @@ D/storm   (19001): test_privatestatic is called
 
 # 原理
 
-## 1.如何进入目标进程的native世界
-通过注入InjectSo模块中的libhook.so到目标进程，就进入了目标的native世界
+早期的Dalvik hook是修改java的签名属性为native，replacemethod是native方法，需要通过java反射来调用原始函数，
+在StormHook框架，我想要将replace method全部用java代码实现,可以动态加载Dex或者Jar来加载Hook代码
 
-## 2.如何进入目标进程的java世界
-使用LoadDex函数加载外部Dex，并执行指定的入口类，对Java函数进行hook操作，这样就进入到目标进程的Java世界
-
-## 3.如何获取全局的JavaVm
-在JNI开发当中，JavaVM参数可以通过JNI_OnLoad参数获取，但是对于我们注入的so ，我们无法通过这种方式获取JavaVm，但是Android提供了另外一种方法可以获取到全局的JavaVm
-```C
-android::AndroidRuntime::getJavaVM();
-```
-
-
-## 4.加载外部Dex
-使用反射的方法调用"dalvik/system/DexFile"类中的loadDex来动态加载Dex，获取一个dex对象
+首先注入so来进入目标进程的native世界,然后使用LoadDex来加载Dex
 ```C
 jclass DexFile=jenv->FindClass("dalvik/system/DexFile");
 if(ClearException(jenv))
@@ -135,13 +124,10 @@ if(ClearException(jenv))
 }
 jmethodID loadDex=jenv->GetStaticMethodID(DexFile,"loadDex","(Ljava/lang/String;Ljava/lang/String;I)Ldalvik/system/DexFile;");
 ```
+然后根据MultiDex原理将动态加载的dex与原始Dex合并，执行外部加载Dex的入口类，这样我们就进入进程的Java世界
+来进行Java Hook操作。
 
-## 5.获取主dex所对应的PathClassLoader
-
-## 6.根据MultiDex原理将主Dex和外部加载的Dex合并
-
-## 7.找到外部Dex的入口类
-这里我提供了2种方法：
+如何找到动态加载的Dex中的java类，有2种方法：
 
 方法一：使用PathClassLoader.loadClass(className)；
 主Dex对应的是pathClassLoader
@@ -168,12 +154,8 @@ jstring className=jenv->NewStringUTF(name);
 jclass tClazz = (jclass)jenv->CallObjectMethod(dexObject,loadClass,className,g_classLoader);
 ```
 
-## 8.执行外部Dex入口类进行Java Hook操作
-### Dalvik Hook
-采用的方法类似AndFix，将origin method对应的DalvikMethod结构替换为replace method的DalvikMethod结构
 
-### Art Hook
-采用的是mar-v-hook的Art Hook方案
+
 
 # 参考
 * https://github.com/alibaba/AndFix
